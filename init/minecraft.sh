@@ -21,9 +21,9 @@ echo "done"
 
 # Do an inline sync first, then start the background job
 echo "-----> Starting sync..."
-./sync.sh
+init/sync.sh
 echo "done"
-eval "while true; do sleep ${AWS_SYNC_INTERVAL:-60}; ./sync.sh; done &"
+eval "while true; do sleep ${AWS_SYNC_INTERVAL:-60}; init/sync.sh; done &"
 sync_pid=$!
 
 # Start the TCP tunnel
