@@ -31,7 +31,7 @@ ngrok_pid=$!
 
 # Do an inline sync first, then start the background job
 echo "Starting sync..."
-chmod +x ./sync.sh && ./sync.sh
+./sync.sh
 eval "while true; do sleep ${AWS_SYNC_INTERVAL:-60}; ./sync.sh; done &"
 sync_pid=$!
 

@@ -1,1 +1,1 @@
-web: chmod +x ./minecraft.sh && ./minecraft.sh $PORT
+web: ./minecraft.sh $PORT
