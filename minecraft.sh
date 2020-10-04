@@ -55,11 +55,11 @@ case $limit in
 esac
 
 echo "Starting: minecraft ${mc_port}"
-eval "minecraft java -Xmx${heap} -Xms${heap} -jar minecraft.jar nogui | tee mc_server.log &"
+eval "java -Xmx${heap} -Xms${heap} -jar minecraft.jar nogui | tee mc_server.log &"
 main_pid=$!
 
-# Flush the logfile every second, and ensure that the logfile exists
-screen -X "logfile 1" && sleep 1
+# # Flush the logfile every second, and ensure that the logfile exists
+# screen -X "logfile 1" && sleep 1
 
 # echo "Tailing log"
 # eval "tail -f screenlog.0 &"
