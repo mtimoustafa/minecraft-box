@@ -83,16 +83,16 @@ curl -o minecraft.jar -s -L $minecraft_url
 mv minecraft.jar $BUILD_DIR/minecraft.jar
 echo "done"
 
-if [ -n "${MINECRAFT_EULA:-""}" ]; then
-  echo -n "-----> Accepting Minecraft EULA... "
-  echo "eula=true" >> $BUILD_DIR/eula.txt
-  echo "done"
-fi
+# if [ -n "${MINECRAFT_EULA:-""}" ]; then
+#   echo -n "-----> Accepting Minecraft EULA... "
+#   echo "eula=true" >> $BUILD_DIR/eula.txt
+#   echo "done"
+# fi
 
-mkdir -p $BUILD_DIR/bin
-[ ! -f $BUILD_DIR/minecraft ]   && cp $OPT_DIR/minecraft $BUILD_DIR/bin
-[ ! -f $BUILD_DIR/sync ]        && cp $OPT_DIR/sync $BUILD_DIR/bin
-[ ! -f $BUILD_DIR/index.rhtml ] && cp $OPT_DIR/index.rhtml $BUILD_DIR
+# mkdir -p $BUILD_DIR/bin
+# [ ! -f $BUILD_DIR/minecraft ]   && cp $OPT_DIR/minecraft $BUILD_DIR/bin
+# [ ! -f $BUILD_DIR/sync ]        && cp $OPT_DIR/sync $BUILD_DIR/bin
+# [ ! -f $BUILD_DIR/index.rhtml ] && cp $OPT_DIR/index.rhtml $BUILD_DIR
 
 chmod +x $BUILD_DIR/minecraft.sh
 chmod +x $BUILD_DIR/sync.sh
