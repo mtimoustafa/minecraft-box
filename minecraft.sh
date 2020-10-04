@@ -41,21 +41,21 @@ for f in whitelist banned-players banned-ips ops; do
   test ! -f $f.json && echo -n "[]" > $f.json
 done
 
-limit=$(ulimit -u)
-case $limit in
-  512)   # 2X Dyno
-  heap="768m"
-  ;;
-  32768) # PX Dyno
-  heap="4g"
-  ;;
-  *)     # 1X Dyno
-  heap="384m"
-  ;;
-esac
+# limit=$(ulimit -u)
+# case $limit in
+#   512)   # 2X Dyno
+#   heap="768m"
+#   ;;
+#   32768) # PX Dyno
+#   heap="4g"
+#   ;;
+#   *)     # 1X Dyno
+#   heap="384m"
+#   ;;
+# esac
 
 echo "Starting: minecraft ${mc_port}"
-eval "java -Xmx${heap} -Xms${heap} -jar minecraft.jar nogui | tee mc_server.log &"
+eval "java -Xmx768m -Xms384m -jar minecraft.jar nogui | &"
 main_pid=$!
 
 # # Flush the logfile every second, and ensure that the logfile exists
