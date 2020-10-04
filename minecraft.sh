@@ -56,7 +56,7 @@ done
 
 echo "Starting: minecraft ${mc_port}"
 eval "java -Xmx768m -Xms384m -jar minecraft.jar nogui &"
-# main_pid=$!
+main_pid=$!
 
 # # Flush the logfile every second, and ensure that the logfile exists
 # screen -X "logfile 1" && sleep 1
@@ -65,5 +65,7 @@ eval "java -Xmx768m -Xms384m -jar minecraft.jar nogui &"
 # eval "tail -f screenlog.0 &"
 # tail_pid=$!
 
-# trap "kill $ngrok_pid $main_pid $sync_pid" SIGTERM
-# trap "kill -9 $ngrok_pid $main_pid $sync_pid; exit" SIGKILL
+trap "kill $ngrok_pid $main_pid $sync_pid" SIGTERM
+trap "kill -9 $ngrok_pid $main_pid $sync_pid; exit" SIGKILL
+
+eval "ruby -rwebrick -e'WEBrick::HTTPServer.new(:BindAddress => \"0.0.0.0\", :Port => ${port}, :MimeTypes => {\"rhtml\" => \"text/html\"}, :DocumentRoot => Dir.pwd).start'"

@@ -1,2 +1,1 @@
-web: ./web.sh $PORT
-worker: ./minecraft.sh
+web: ./minecraft.sh $PORT
