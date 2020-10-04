@@ -2,7 +2,6 @@
 set -eu
 
 mc_port=25566
-port=${1:-${PORT:-8080}}
 
 if [ -z "$NGROK_API_TOKEN" ]; then
   echo "You must set the NGROK_API_TOKEN config var to create a TCP tunnel!"
@@ -12,6 +11,7 @@ fi
 echo -n "-----> Installing ngrok..."
 curl --silent -o ngrok.zip -L "https://bin.equinox.io/c/4VmDzA7iaHb/ngrok-stable-linux-amd64.zip"
 unzip ngrok.zip > /dev/null 2>&1
+rm ngrok.zip
 echo "done"
 
 echo -n "-----> Installing Minecraft..."
@@ -28,21 +28,23 @@ sync_pid=$!
 
 # Start the TCP tunnel
 echo "-----> Starting ngrok"
-ngrok_cmd="./ngrok tcp -authtoken $NGROK_API_TOKEN -log stdout --log-level debug ${mc_port}"
+ngrok_cmd="./ngrok tcp -authtoken $NGROK_API_TOKEN -log stdout --log-level debug $mc_port"
 eval "$ngrok_cmd | tee ngrok.log &"
 ngrok_pid=$!
 
-# create server config
+# Create or complete Minecraft server configuration
 echo "server-port=${mc_port}" >> /app/server.properties
+test ! -f eula.txt && echo "eula=true" > eula.txt
 for f in whitelist banned-players banned-ips ops; do
   test ! -f $f.json && echo -n "[]" > $f.json
 done
 
-echo "-----> Starting Minecraft Server on port ${mc_port}"
+echo "-----> Starting Minecraft Server on port $mc_port"
 eval "java -Xmx768m -Xms384m -jar minecraft.jar nogui &"
 main_pid=$!
 
 trap "kill $ngrok_pid $main_pid $sync_pid" SIGTERM
 trap "kill -9 $ngrok_pid $main_pid $sync_pid; exit" SIGKILL
 
-eval "ruby -rwebrick -e'WEBrick::HTTPServer.new(:BindAddress => \"0.0.0.0\", :Port => ${port}, :MimeTypes => {\"rhtml\" => \"text/html\"}, :DocumentRoot => Dir.pwd).start'"
+# Start web server
+../web/start.sh
