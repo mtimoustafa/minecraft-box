@@ -24,7 +24,7 @@ curl -o minecraft.jar -s -L $minecraft_url
 echo "done"
 
 # Start the TCP tunnel
-ngrok_cmd="./ngrok tcp -authtoken $NGROK_API_TOKEN -log stdout --log-level debug ${NGROK_OPTS:-''} ${mc_port}"
+ngrok_cmd="./ngrok tcp -authtoken $NGROK_API_TOKEN -log stdout --log-level debug ${mc_port}"
 echo "Starting ngrok..."
 eval "$ngrok_cmd | tee ngrok.log &"
 ngrok_pid=$!
@@ -55,7 +55,7 @@ case $limit in
 esac
 
 echo "Starting: minecraft ${mc_port}"
-eval "minecraft java -Xmx${heap} -Xms${heap} -jar minecraft.jar nogui &"
+eval "minecraft java -Xmx${heap} -Xms${heap} -jar minecraft.jar nogui | tee mc_server.log &"
 main_pid=$!
 
 # Flush the logfile every second, and ensure that the logfile exists
