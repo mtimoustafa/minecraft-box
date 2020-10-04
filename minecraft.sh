@@ -55,7 +55,7 @@ done
 # esac
 
 echo "Starting: minecraft ${mc_port}"
-eval "java -Xmx768m -Xms384m -jar minecraft.jar nogui | &"
+eval "java -Xmx768m -Xms384m -jar minecraft.jar nogui &"
 main_pid=$!
 
 # # Flush the logfile every second, and ensure that the logfile exists
