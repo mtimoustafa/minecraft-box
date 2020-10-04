@@ -18,9 +18,8 @@ curl --silent -o ngrok.zip -L "https://bin.equinox.io/c/4VmDzA7iaHb/ngrok-stable
 unzip ngrok.zip > /dev/null 2>&1
 echo "done"
 
-echo -n "-----> Installing Minecraft ${minecraft_version}... "
-minecraft_uuid="${MINECRAFT_UUID:="a412fd69db1f81db3f511c1463fd304675244077"}"
-minecraft_url="https://launcher.mojang.com/v1/objects/${minecraft_uuid}/server.jar"
+echo -n "-----> Installing Minecraft... "
+minecraft_url="https://launcher.mojang.com/v1/objects/a412fd69db1f81db3f511c1463fd304675244077/server.jar"
 curl -o minecraft.jar -s -L $minecraft_url
 echo "done"
 
