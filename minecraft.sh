@@ -1,4 +1,9 @@
 #!/usr/bin/env bash
+set -eu
+
+indent() {
+  sed -u 's/^/       /'
+}
 
 mc_port=25566
 port=${1:-${PORT:-8080}}
@@ -20,14 +25,14 @@ curl -o minecraft.jar -s -L $minecraft_url
 echo "done"
 
 # Start the TCP tunnel
-ngrok_cmd="bin/ngrok tcp -authtoken $NGROK_API_TOKEN -log stdout --log-level debug ${NGROK_OPTS} ${mc_port}"
+ngrok_cmd="./ngrok tcp -authtoken $NGROK_API_TOKEN -log stdout --log-level debug ${NGROK_OPTS} ${mc_port}"
 echo "Starting ngrok..."
 eval "$ngrok_cmd | tee ngrok.log &"
 ngrok_pid=$!
 
 # Do an inline sync first, then start the background job
 echo "Starting sync..."
-./sync.sh
+chmod +x ./sync.sh && ./sync.sh
 if [ "$READ_ONLY" != "true" ]; then
   eval "while true; do sleep ${AWS_SYNC_INTERVAL:-60}; ./sync.sh; done &"
   sync_pid=$!

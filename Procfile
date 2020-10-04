@@ -1,1 +1,1 @@
-web: chmod +x minecraft.sh && ./minecraft.sh
+web: chmod +x ./minecraft.sh && ./minecraft.sh
