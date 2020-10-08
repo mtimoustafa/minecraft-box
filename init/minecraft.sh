@@ -40,7 +40,7 @@ for f in whitelist banned-players banned-ips ops; do
 done
 
 echo "-----> Starting Minecraft Server on port $mc_port"
-eval "java -Xmx768m -Xms384m -jar minecraft.jar nogui &"
+eval "java -Xmx768m -Xms384m -jar minecraft.jar nogui"
 main_pid=$!
 
 trap "kill $ngrok_pid $main_pid $sync_pid" SIGTERM
