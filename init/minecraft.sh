@@ -2,6 +2,7 @@
 set -eu
 
 mc_port=25566
+dynmap_port=8123
 
 if [ -z "$NGROK_API_TOKEN" ]; then
   echo "You must set the NGROK_API_TOKEN config var to create a TCP tunnel!"
@@ -27,8 +28,14 @@ eval "while true; do sleep ${AWS_SYNC_INTERVAL:-60}; init/sync.sh; done &"
 sync_pid=$!
 
 # Start the TCP tunnel
-echo "-----> Starting ngrok"
-ngrok_cmd="./ngrok tcp -authtoken $NGROK_API_TOKEN -log stdout --log-level debug $mc_port"
+echo "-----> Starting TCP ngrok"
+ngrok_cmd="./ngrok tcp -authtoken $NGROK_API_TOKEN -log stdout $mc_port"
+eval "$ngrok_cmd | tee ngrok.log &"
+ngrok_pid=$!
+
+# Start the Dynmap HTTP tunnel
+echo "-----> Starting TCP ngrok"
+ngrok_cmd="./ngrok http -authtoken $NGROK_API_TOKEN -log stdout $dynmap_port"
 eval "$ngrok_cmd | tee ngrok.log &"
 ngrok_pid=$!
 
@@ -40,11 +47,11 @@ for f in whitelist banned-players banned-ips ops; do
 done
 
 echo "-----> Starting Minecraft Server on port $mc_port"
-eval "java -Xmx768m -Xms384m -jar minecraft.jar nogui"
+eval "java -Xmx768m -Xms384m -jar minecraft.jar nogui &"
 main_pid=$!
 
 trap "kill $ngrok_pid $main_pid $sync_pid" SIGTERM
 trap "kill -9 $ngrok_pid $main_pid $sync_pid; exit" SIGKILL
 
 # Start web server
-# ./web.sh
+./web.sh
