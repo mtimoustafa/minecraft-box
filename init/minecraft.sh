@@ -27,17 +27,12 @@ echo "done"
 eval "while true; do sleep ${AWS_SYNC_INTERVAL:-60}; init/sync.sh; done &"
 sync_pid=$!
 
-# # Start the TCP tunnel
-# echo "-----> Starting TCP ngrok"
-# ngrok_cmd="./ngrok tcp -authtoken $NGROK_API_TOKEN -log stdout --log-level debug $mc_port"
-# eval "$ngrok_cmd | tee ngrok.log &"
-# ngrok_pid=$!
-
-# Start the Dynmap HTTP tunnel
-echo "-----> Starting Dynmap ngrok"
-ngrok_cmd="./ngrok http -authtoken $NGROK_API_TOKEN -log stdout --log-level debug $dynmap_port"
+# Start the TCP tunnel
+echo "-----> Starting TCP ngrok"
+ngrok_cmd="./ngrok start -authtoken $NGROK_API_TOKEN -log stdout --log-level debug minecraft dynmap"
 eval "$ngrok_cmd | tee ngrok.log &"
 ngrok_pid=$!
+
 
 # Create or complete Minecraft server configuration
 echo "server-port=${mc_port}" >> /app/server.properties
