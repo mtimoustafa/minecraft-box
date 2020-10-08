@@ -29,13 +29,13 @@ sync_pid=$!
 
 # Start the TCP tunnel
 echo "-----> Starting TCP ngrok"
-ngrok_cmd="./ngrok tcp -authtoken $NGROK_API_TOKEN -log stdout $mc_port"
+ngrok_cmd="./ngrok tcp -authtoken $NGROK_API_TOKEN -log stdout --log-level debug $mc_port"
 eval "$ngrok_cmd | tee ngrok.log &"
 ngrok_pid=$!
 
 # Start the Dynmap HTTP tunnel
-echo "-----> Starting TCP ngrok"
-ngrok_cmd="./ngrok http -authtoken $NGROK_API_TOKEN -log stdout $dynmap_port"
+echo "-----> Starting Dynmap ngrok"
+ngrok_cmd="./ngrok http -authtoken $NGROK_API_TOKEN -log stdout --log-level debug $dynmap_port"
 eval "$ngrok_cmd | tee ngrok.log &"
 ngrok_pid=$!
 
