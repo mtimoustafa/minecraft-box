@@ -47,4 +47,4 @@ trap "kill $ngrok_pid $main_pid $sync_pid" SIGTERM
 trap "kill -9 $ngrok_pid $main_pid $sync_pid; exit" SIGKILL
 
 # Start web server
-web/start.sh
+./web.sh
