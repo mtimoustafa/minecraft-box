@@ -28,7 +28,7 @@ eval "while true; do sleep ${AWS_SYNC_INTERVAL:-60}; init/sync.sh; done &"
 sync_pid=$!
 
 # Start the TCP tunnel
-echo "-----> Starting TCP ngrok"
+echo "-----> Starting ngrok"
 ngrok_cmd="./ngrok start -authtoken $NGROK_API_TOKEN -log stdout --log-level debug -config=ngrok.yml --all"
 eval "$ngrok_cmd | tee ngrok.log &"
 ngrok_pid=$!
@@ -42,7 +42,7 @@ for f in whitelist banned-players banned-ips ops; do
 done
 
 echo "-----> Starting Minecraft Server on port $mc_port"
-eval "java -Xmx768m -Xms384m -jar minecraft.jar nogui &"
+eval "java -Xmx384m -Xms384m -jar minecraft.jar nogui &"
 main_pid=$!
 
 trap "kill $ngrok_pid $main_pid $sync_pid" SIGTERM
