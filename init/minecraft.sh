@@ -27,11 +27,11 @@ echo "done"
 eval "while true; do sleep ${AWS_SYNC_INTERVAL:-60}; init/sync.sh; done &"
 sync_pid=$!
 
-# Start the TCP tunnel
-echo "-----> Starting TCP ngrok"
-ngrok_cmd="./ngrok tcp -authtoken $NGROK_API_TOKEN -log stdout --log-level debug $mc_port"
-eval "$ngrok_cmd | tee ngrok.log &"
-ngrok_pid=$!
+# # Start the TCP tunnel
+# echo "-----> Starting TCP ngrok"
+# ngrok_cmd="./ngrok tcp -authtoken $NGROK_API_TOKEN -log stdout --log-level debug $mc_port"
+# eval "$ngrok_cmd | tee ngrok.log &"
+# ngrok_pid=$!
 
 # Start the Dynmap HTTP tunnel
 echo "-----> Starting Dynmap ngrok"
