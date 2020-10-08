@@ -29,7 +29,7 @@ sync_pid=$!
 
 # Start the TCP tunnel
 echo "-----> Starting TCP ngrok"
-ngrok_cmd="./ngrok start -authtoken $NGROK_API_TOKEN -log stdout --log-level debug minecraft dynmap"
+ngrok_cmd="./ngrok start -authtoken $NGROK_API_TOKEN -log stdout --log-level debug -config=ngrok.yml --all"
 eval "$ngrok_cmd | tee ngrok.log &"
 ngrok_pid=$!
 
