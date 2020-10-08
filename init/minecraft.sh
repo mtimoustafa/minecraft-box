@@ -37,7 +37,7 @@ ngrok_pid=$!
 # Create or complete Minecraft server configuration
 echo "server-port=${mc_port}" >> /app/server.properties
 test ! -f eula.txt && echo "eula=true" > eula.txt
-for f in whitelist banned-players banned-ips ops; do
+for f in banned-players banned-ips ops; do
   test ! -f $f.json && echo -n "[]" > $f.json
 done
 
