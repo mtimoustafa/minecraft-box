@@ -23,7 +23,7 @@ if [ -n "$AWS_BUCKET" ]; then
     cache \
     logs
 
-  aws s3 sync . "s3://$AWS_BUCKET" --recursive \
+  aws s3 sync . "s3://$AWS_BUCKET" \
     --exclude "*" \
     --include "world/*" \
     --include "world_nether/*" \
