@@ -23,8 +23,7 @@ ngrok_cmd="./ngrok start -authtoken $NGROK_API_TOKEN -log stdout --log-level deb
 eval "$ngrok_cmd | tee ngrok.log &"
 ngrok_pid=$!
 
-trap "kill $ngrok_pid" SIGTERM
-trap "kill -9 $ngrok_pid; exit" SIGKILL
+trap 'kill $ngrok_pid' SIGTERM
 
 # Start minecraft server
 init/minecraft.sh

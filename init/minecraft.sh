@@ -27,8 +27,7 @@ echo "-----> Starting Minecraft Server on port $mc_port"
 eval "java -Xmx512m -Xms512m -jar minecraft.jar nogui &"
 main_pid=$!
 
-trap "kill $main_pid $sync_pid" SIGTERM
-trap "kill -9 $main_pid $sync_pid; exit" SIGKILL
+trap 'kill $main_pid $sync_pid' SIGTERM
 
 # Start web server
 init/web.sh

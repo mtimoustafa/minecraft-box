@@ -1,3 +1,6 @@
+#!/usr/bin/env bash
+set -eu
+
 port=${1:-${PORT:-8080}}
 
 cd ..
