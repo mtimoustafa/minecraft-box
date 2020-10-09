@@ -25,9 +25,7 @@ ngrok_pid=$!
 init/web.sh &
 web_pid=$!
 
-# First sync is to ensure files are present for minecraft server
-init/sync.sh
-
 trap 'kill $ngrok_pid $web_pid' SIGTERM
 
+init/get_assets.sh
 init/minecraft.sh
