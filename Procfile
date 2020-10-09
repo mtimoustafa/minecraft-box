@@ -1,2 +1,2 @@
-web: init/start.sh $PORT
-worker: init/start_sync.sh
+web: init/start_server.sh $PORT
+worker: init/sync.sh
