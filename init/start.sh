@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 set -eu
 
+aws_sync_interval=${AWS_SYNC_INTERVAL:-1800} # 30 minutes
+
 if [ -z "$NGROK_API_TOKEN" ]; then
   echo "You must set the NGROK_API_TOKEN config var to create a TCP tunnel!"
   exit 1
@@ -23,7 +25,19 @@ ngrok_cmd="./ngrok start -authtoken $NGROK_API_TOKEN -log stdout --log-level deb
 eval "$ngrok_cmd | tee ngrok.log &"
 ngrok_pid=$!
 
-trap 'kill $ngrok_pid' SIGTERM
+# Do an inline sync first, then start the background job
+echo "-----> Starting sync"
+init/sync.sh &
+eval "while true; do sleep $aws_sync_interval; init/sync.sh; done &"
+sync_pid=$!
+
+# Set up graceful shutdown
+_term() {
+  echo "-----> Syncing files before shutting down"
+  init/sync.sh
+}
+trap _term SIGTERM
+trap 'kill $ngrok_pid $sync_pid' SIGTERM
 
 # Start minecraft server
 init/minecraft.sh
