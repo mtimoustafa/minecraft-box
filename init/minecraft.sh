@@ -3,6 +3,13 @@ set -eu
 
 mc_port=25566
 dynmap_port=8123
+aws_sync_interval=${AWS_SYNC_INTERVAL:-1800} # 30 minutes
+
+_term() {
+  echo "Sync files before shutting down..."
+  init/sync.sh
+}
+trap _term SIGTERM
 
 if [ -z "$NGROK_API_TOKEN" ]; then
   echo "You must set the NGROK_API_TOKEN config var to create a TCP tunnel!"

@@ -1,11 +1,11 @@
 <% open('ngrok.log') do |f| %>
   <% f.each_line.select { |line| line.include?('URL:') }.each do |line| %>
     <% tcp = /tcp:\/\/.+?\s/ %>
-    <% http = /https:\/\/.+?\s/ %>
+    <% https = /https:\/\/.+?\s/ %>
 
     <% if line.match?(tcp) %>
       Server available at: <%= line.match(tcp)[0] %><br />
-    <% elsif line.match?(http) %>
+    <% elsif line.match?(https) %>
       Dynmap available at: <%= line.match(http)[0] %><br />
     <% end %>
   <% end %>
