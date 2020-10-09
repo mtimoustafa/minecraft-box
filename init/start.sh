@@ -22,8 +22,12 @@ ngrok_cmd="./ngrok start -authtoken $NGROK_API_TOKEN -log stdout -config=ngrok.y
 eval "$ngrok_cmd | tee ngrok.log &"
 ngrok_pid=$!
 
-# Set up graceful shutdown
-trap 'kill $ngrok_pid' SIGTERM
+init/web.sh &
+web_pid=$!
 
-# Start minecraft server
+# First sync is to ensure files are present for minecraft server
+init/sync.sh
+
+trap 'kill $ngrok_pid $web_pid' SIGTERM
+
 init/minecraft.sh
