@@ -26,10 +26,10 @@ eval "$ngrok_cmd | tee ngrok.log &"
 ngrok_pid=$!
 
 # Do an inline sync first, then start the background job
-echo "-----> Starting sync"
-init/sync.sh &
-eval "while true; do sleep $aws_sync_interval; init/sync.sh; done &"
-sync_pid=$!
+# echo "-----> Starting sync"
+# init/sync.sh &
+# eval "while true; do sleep $aws_sync_interval; init/sync.sh; done &"
+# sync_pid=$!
 
 # Set up graceful shutdown
 _term() {
