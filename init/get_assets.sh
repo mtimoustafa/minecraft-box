@@ -2,7 +2,8 @@
 set -eu
 
 echo "Pulling directories from S3"
-aws s3 sync "s3://$AWS_BUCKET" /app --dryrun --only-show-errors --exclude "*" --include "world/*"
+aws s3 sync "s3://$AWS_BUCKET/world" /app/world --dryrun --only-show-errors
+# --exclude "*" --include "world/*"
   # --include "world_nether/*" \
   # --include "world_the_end/*" \
   # --include "plugins/*" \
