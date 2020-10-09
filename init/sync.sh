@@ -30,16 +30,15 @@ if [ -n "$AWS_BUCKET" ]; then
     logs
 
   echo "Syncing to S3"
-  ls -lah
-  aws s3 sync . "s3://$AWS_BUCKET" \
-    --dryrun \
-    --exclude "*" \
-    --include "world/*" \
-    --include "world_nether/*" \
-    --include "world_the_end/*" \
-    --include "plugins/*" \
-    --include "cache/*" \
-    --include "logs/*"
+  ls -lah .
+  aws s3 sync . "s3://$AWS_BUCKET" --dryrun
+    # --exclude "*" \
+    # --include "world/*" \
+    # --include "world_nether/*" \
+    # --include "world_the_end/*" \
+    # --include "plugins/*" \
+    # --include "cache/*" \
+    # --include "logs/*"
   echo "Sync completed"
 else
   echo "Failed to sync: could not find $AWS_BUCKET"
