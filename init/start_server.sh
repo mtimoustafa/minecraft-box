@@ -27,5 +27,11 @@ web_pid=$!
 
 trap 'kill $ngrok_pid $web_pid' SIGTERM
 
+_term() {
+  echo "-----> Syncing files before shutting down"
+  init/sync.sh
+}
+trap _term SIGTERM
+
 init/get_assets.sh
 init/minecraft.sh

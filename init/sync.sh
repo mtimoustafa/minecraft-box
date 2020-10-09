@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-set -eu
+set -u
 
 if [ -n "$AWS_BUCKET" ]; then
   if aws s3 ls "s3://$AWS_BUCKET" 2>&1 | grep -q 'NoSuchBucket'; then
