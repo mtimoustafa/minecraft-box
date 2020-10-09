@@ -2,12 +2,17 @@
 set -eu
 
 get_if_does_not_exist() {
+  echo "Pulling directories from S3"
+
   for dir in "$@"; do
     if [ ! -d "$dir" ]; then
+      echo "Creating $dir directory"
       mkdir -p "$dir"
-      aws s3 cp --recursive "s3://$AWS_BUCKET/$dir" "$dir"
+      aws s3 cp --recursive --only-show-errors "s3://$AWS_BUCKET/$dir" "$dir"
     fi
   done
+
+  echo "Completed S3 directory pull"
 }
 
 if [ -n "$AWS_BUCKET" ]; then
