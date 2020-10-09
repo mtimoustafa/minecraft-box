@@ -19,17 +19,18 @@ minecraft_url="https://papermc.io/api/v1/paper/1.16.3/216/download"
 curl -o minecraft.jar -s -L $minecraft_url
 echo "done"
 
-# Start the TCP tunnel
-echo "-----> Starting ngrok"
-ngrok_cmd="./ngrok start -authtoken $NGROK_API_TOKEN -log stdout --log-level debug -config=ngrok.yml --all"
+echo "-----> Starting ngrok TCP tunnel"
+ngrok_cmd="./ngrok start -authtoken $NGROK_API_TOKEN -log stdout -config=ngrok.yml --all"
 eval "$ngrok_cmd | tee ngrok.log &"
 ngrok_pid=$!
 
-# Do an inline sync first, then start the background job
-# echo "-----> Starting sync"
-# init/sync.sh &
-# eval "while true; do sleep $aws_sync_interval; init/sync.sh; done &"
-# sync_pid=$!
+# Start minecraft server
+init/minecraft.sh &
+mc_pid=$!
+
+echo "-----> Starting sync"
+eval "while true; init/sync.sh; do sleep $aws_sync_interval; done &"
+sync_pid=$!
 
 # Set up graceful shutdown
 _term() {
@@ -37,7 +38,6 @@ _term() {
   init/sync.sh
 }
 trap _term SIGTERM
-trap 'kill $ngrok_pid $sync_pid' SIGTERM
+trap 'kill $ngrok_pid $sync_pid $sync_pid' SIGTERM
 
-# Start minecraft server
-init/minecraft.sh
+wait $mc_pid

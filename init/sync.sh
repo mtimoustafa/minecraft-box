@@ -23,7 +23,7 @@ if [ -n "$AWS_BUCKET" ]; then
     cache \
     logs
 
-  aws s3 sync . "s3://$AWS_BUCKET" \
+  aws s3 sync . "s3://$AWS_BUCKET" --only-show-errors \
     --exclude "*" \
     --include "world/*" \
     --include "world_nether/*" \
