@@ -32,14 +32,13 @@ if [ -n "$AWS_BUCKET" ]; then
   echo "Syncing to S3"
   ls -lah .
   pwd
-  aws s3 sync . "s3://$AWS_BUCKET" --dryrun
-    --exclude "*" \
-    --include "world/*" \
-    --include "world_nether/*" \
-    --include "world_the_end/*" \
-    --include "plugins/*" \
-    --include "cache/*" \
-    --include "logs/*"
+  aws s3 sync /app "s3://$AWS_BUCKET" --dryrun --exclude "*"
+    # --include "world/*" \
+    # --include "world_nether/*" \
+    # --include "world_the_end/*" \
+    # --include "plugins/*" \
+    # --include "cache/*" \
+    # --include "logs/*"
   echo "Sync completed"
 else
   echo "Failed to sync: could not find $AWS_BUCKET"
