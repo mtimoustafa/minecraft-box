@@ -1,1 +1,1 @@
-web: init/minecraft.sh $PORT
+web: init/start.sh $PORT
