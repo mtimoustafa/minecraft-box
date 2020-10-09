@@ -16,9 +16,8 @@ get_if_does_not_exist() {
 }
 
 if [ -n "$AWS_BUCKET" ]; then
-  echo "Syncing to S3"
-
   if aws s3 ls "s3://$AWS_BUCKET" 2>&1 | grep -q 'NoSuchBucket'; then
+    echo "Bucket $AWS_BUCKET not found; creating"
     aws s3 mb "s3://$AWS_BUCKET"
   fi
 
@@ -30,8 +29,17 @@ if [ -n "$AWS_BUCKET" ]; then
     cache \
     logs
 
-  aws s3 sync . "s3://$AWS_BUCKET" --dryrun --only-show-errors --exclude "*" --include "world/*" --include "world_nether/*" --include "world_the_end/*" --include "plugins/*" --include "cache/*" --include "logs/*"
-
+  echo "Syncing to S3"
+  ls -lah
+  aws s3 sync . "s3://$AWS_BUCKET" \
+    --dryrun \
+    --exclude "*" \
+    --include "world/*" \
+    --include "world_nether/*" \
+    --include "world_the_end/*" \
+    --include "plugins/*" \
+    --include "cache/*" \
+    --include "logs/*"
   echo "Sync completed"
 else
   echo "Failed to sync: could not find $AWS_BUCKET"
