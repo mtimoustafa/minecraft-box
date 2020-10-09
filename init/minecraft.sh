@@ -31,4 +31,4 @@ trap "kill $main_pid $sync_pid" SIGTERM
 trap "kill -9 $main_pid $sync_pid; exit" SIGKILL
 
 # Start web server
-./web.sh
+init/web.sh

@@ -27,4 +27,4 @@ trap "kill $ngrok_pid" SIGTERM
 trap "kill -9 $ngrok_pid; exit" SIGKILL
 
 # Start minecraft server
-./minecraft.sh
+init/minecraft.sh
