@@ -21,5 +21,3 @@ if [ -n "$AWS_BUCKET" ]; then
 else
   echo "Failed to sync: could not find $AWS_BUCKET"
 fi
-
-exit

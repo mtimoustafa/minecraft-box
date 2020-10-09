@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-set -eu
+set -u
 
 echo "Pulling directories from S3"
 aws s3 sync "s3://$AWS_BUCKET" ./ --dryrun --only-show-errors --exclude "*" \
@@ -10,5 +10,3 @@ aws s3 sync "s3://$AWS_BUCKET" ./ --dryrun --only-show-errors --exclude "*" \
   --include "cache/*" \
   --include "logs/*"
 echo "Completed S3 directory pull"
-
-exit
