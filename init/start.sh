@@ -6,13 +6,6 @@ if [ -z "$NGROK_API_TOKEN" ]; then
   exit 1
 fi
 
-echo -n "-----> Installing aws-cli..."
-curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
-unzip awscliv2.zip
-rm awscliv2.zip
-./aws/install
-echo "done"
-
 echo -n "-----> Installing ngrok..."
 curl --silent -o ngrok.zip -L "https://bin.equinox.io/c/4VmDzA7iaHb/ngrok-stable-linux-amd64.zip"
 unzip ngrok.zip > /dev/null 2>&1
