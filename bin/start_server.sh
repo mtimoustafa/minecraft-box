@@ -15,5 +15,6 @@ _term() {
 trap _term SIGTERM
 
 bin/start_sync.sh &
+bin/web.sh &
 
 bin/minecraft.sh

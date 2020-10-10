@@ -8,5 +8,5 @@ for f in banned-players banned-ips ops; do
 done
 
 echo "-----> Starting Minecraft Server"
-$ram=1024M
+ram="1024M"
 java -Xmx$ram -Xms$ram -jar minecraft.jar nogui

@@ -8,8 +8,10 @@ COPY . .
 RUN apk update && \
     apk add openjdk8 && \
     apk add bash && \
-    apk add curl
+    apk add curl && \
+    apk add ruby && \
+    apk add ruby-full
 
-EXPOSE 25566 25566 8080 8080
+EXPOSE 25566 8080
 
 CMD ["bin/start_server.sh"]
