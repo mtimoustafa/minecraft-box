@@ -22,9 +22,6 @@ ngrok_cmd="./ngrok start -authtoken $NGROK_API_TOKEN -log stdout -config=ngrok.y
 eval "$ngrok_cmd | tee ngrok.log &"
 ngrok_pid=$!
 
-bin/web.sh &
-web_pid=$!
-
 trap 'kill $ngrok_pid $web_pid' SIGTERM
 
 _term() {
