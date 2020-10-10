@@ -10,4 +10,6 @@ RUN apk update && \
     apk add bash && \
     apk add curl
 
+EXPOSE 25566 25566 8080 8080
+
 CMD ["bin/start_server.sh"]

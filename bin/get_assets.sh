@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -u
 
-echo "Pulling directories from S3"
+echo "-----> Pulling directories from S3"
 aws s3 sync "s3://$AWS_BUCKET" . \
   # --only-show-errors \
   --exclude "*" \
@@ -11,4 +11,4 @@ aws s3 sync "s3://$AWS_BUCKET" . \
   --include "plugins/*" \
   --include "cache/*" \
   --include "logs/*"
-echo "Completed S3 directory pull"
+echo "-----> Completed S3 directory pull"
