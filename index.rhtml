@@ -1,5 +1,5 @@
 <% open('ngrok.log') do |f| %>
-  <% f.each_line.select { |line| line.include?('URL:') }.each do |line| %>
+  <% f.each_line.select { |line| line.include?('url:') }.each do |line| %>
     <% tcp = /tcp:\/\/.+?\s/ %>
     <% https = /https:\/\/.+?\s/ %>
 
