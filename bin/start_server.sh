@@ -34,4 +34,7 @@ _term() {
 trap _term SIGTERM
 
 bin/get_assets.sh
-bin/minecraft.sh
+
+bin/minecraft.sh &
+
+bin/start_sync.sh
