@@ -11,4 +11,4 @@ for f in banned-players banned-ips ops; do
 done
 
 echo "-----> Starting Minecraft Server on port $mc_port"
-java -Xmx512m -Xms512m -jar minecraft.jar nogui
+java -Xmx512M -Xms384M -jar minecraft.jar nogui
