@@ -6,7 +6,7 @@
     <% if line.match?(tcp) %>
       Server available at: <%= line.match(tcp)[0] %><br />
     <% elsif line.match?(https) %>
-      Dynmap available at: <%= line.match(http)[0] %><br />
+      Dynmap available at: <%= line.match(https)[0] %><br />
     <% end %>
   <% end %>
 <% end %>
