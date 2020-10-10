@@ -1,0 +1,13 @@
+{
+  "buildpacks": [
+    {
+      "url": "heroku/python"
+    },
+    {
+      "url": "heroku/jvm"
+    },
+    {
+      "url": "https://buildpack-registry.s3.amazonaws.com/buildpacks/heroku-community/awscli.tgz"
+    }
+  ]
+}
