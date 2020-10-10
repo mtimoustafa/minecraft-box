@@ -22,16 +22,16 @@ ngrok_cmd="./ngrok start -authtoken $NGROK_API_TOKEN -log stdout -config=ngrok.y
 eval "$ngrok_cmd | tee ngrok.log &"
 ngrok_pid=$!
 
-init/web.sh &
+bin/web.sh &
 web_pid=$!
 
 trap 'kill $ngrok_pid $web_pid' SIGTERM
 
 _term() {
   echo "-----> Syncing files before shutting down"
-  init/sync.sh
+  bin/sync.sh
 }
 trap _term SIGTERM
 
-init/get_assets.sh
-init/minecraft.sh
+bin/get_assets.sh
+bin/minecraft.sh

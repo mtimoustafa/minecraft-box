@@ -1,2 +1,2 @@
-web: init/start_server.sh $PORT
-worker: init/sync.sh
+web: bin/start_server.sh $PORT
+worker: bin/sync.sh
