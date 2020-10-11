@@ -1,5 +1,4 @@
 #!/bin/sh
-printenv
 aws ecs update-service \
   --force-new-deployment \
   --cluster minecraft-box-cluster \
