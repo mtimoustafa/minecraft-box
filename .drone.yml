@@ -24,6 +24,9 @@ pipeline:
     deployment_configuration: 100 200
     image_name: mtimoustafa/minecraft-box
     image_tag: master
+    service_network_subnets:
+      - subnet-0b77e54dda29c49db
+      - subnet-08bf15cd05f424bd8
     when:
       branch: master
       event: push
