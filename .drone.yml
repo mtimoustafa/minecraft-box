@@ -12,21 +12,29 @@ pipeline:
       event: push
 
   deploy:
-    image: peloton/drone-ecs
-    access_key:
-      from_secret: aws_access_key_id
-    secret_key:
-      from_secret: aws_secret_access_key
+    image: omerxx/drone-ecs-plugin
+    secrets:
+      - aws_access_key_id
+      - aws_secret_access_key
     cluster: minecraft-box-cluster
-    service: minecraft-box-service
     region: us-east-2
+    service: minecraft-box-service
     family: minecraft-box-task
-    deployment_configuration: 100 200
     image_name: mtimoustafa/minecraft-box
     image_tag: master
-    service_network_subnets:
-      - subnet-0b77e54dda29c49db
-      - subnet-08bf15cd05f424bd8
+    environment_variables:
+      - BRANCH=${DRONE_BRANCH}
+      - SHA1=${DRONE_COMMIT_SHA}
+      - BUILD_NUMBER=${DRONE_BUILD_NUMBER}
+      - AWS_ACCESS_KEY_ID=
+      - AWS_SECRET_ACCESS_KEY=
+    port_mappings: 25566 8080 8123
+    memory: 4096
+    log_driver: awslogs
+    log_options:
+      - awslogs-group=minecraft-box-service
+      - awslogs-region=us-east-2
     when:
       branch: master
       event: push
+
