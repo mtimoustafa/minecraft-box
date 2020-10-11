@@ -17,9 +17,11 @@ pipeline:
       from_secret: aws_access_key_id
     secret_key:
       from_secret: aws_secret_access_key
+    cluster: minecraft-box-cluster
     service: minecraft-box-service
     region: us-east-2
     family: minecraft-box-task
+    deployment_configuration: 100 200
     image_name: mtimoustafa/minecraft-box
     image_tag: master
     when:
