@@ -1,37 +1,49 @@
 #!/usr/bin/env bash
 set -eu
 
-if [ -z "$NGROK_API_TOKEN" ]; then
-  echo "You must set the NGROK_API_TOKEN config var to create a TCP tunnel!"
-  exit 1
-fi
+aws_sync_interval=${AWS_SYNC_INTERVAL:-1800} # 30 minutes
+java_ram="1024M"
 
-echo -n "-----> Installing ngrok..."
-curl --silent -o ngrok.zip -L "https://bin.equinox.io/c/4VmDzA7iaHb/ngrok-stable-linux-amd64.zip"
-unzip ngrok.zip > /dev/null 2>&1
-rm ngrok.zip
-echo "done"
+echo "[INIT] Pulling directories from S3"
+aws s3 sync "s3://$AWS_BUCKET" .
+echo "[INIT] Completed S3 directory pull"
 
-echo -n "-----> Installing Minecraft..."
+echo -n "[INIT] Installing Minecraft..."
 minecraft_url="https://papermc.io/api/v1/paper/1.16.3/216/download"
 curl -o minecraft.jar -s -L $minecraft_url
 echo "done"
 
-echo "-----> Starting ngrok TCP tunnel"
-ngrok_cmd="./ngrok start -authtoken $NGROK_API_TOKEN -log stdout -config=ngrok.yml --all"
-eval "$ngrok_cmd | tee ngrok.log &"
-ngrok_pid=$!
+echo "[INIT] Starting sync schedule every $aws_sync_interval seconds"
+eval "while true; do sleep $aws_sync_interval; bin/sync.sh; done &" 
+sync_pid=$!
 
-trap 'kill $ngrok_pid $web_pid' SIGTERM
+echo "[INIT] Starting WEBrick"
+ruby \
+  -r webrick \
+  -e 'WEBrick::HTTPServer.new(:BindAddress => "0.0.0.0", :Port => 8080, :MimeTypes => {"rhtml" => "text/html"}, :DocumentRoot => Dir.pwd).start' \
+  &
+web_pid=$!
+
+# Create or complete Minecraft server configuration
+test ! -f eula.txt && echo "eula=true" > eula.txt
+for f in banned-players banned-ips ops; do
+  test ! -f $f.json && echo -n "[]" > $f.json
+done
+
+echo "[INIT] Starting Minecraft Server"
+java -Xmx$java_ram -Xms$java_ram -jar minecraft.jar nogui &
+mc_pid=$!
 
 _term() {
-  echo "-----> Syncing files before shutting down"
-  bin/sync.sh
+  echo "[TERM] Syncing files before shutting down"
+  bin/sync.sh &
+  term_sync_pid=$!
+
+  echo "[TERM] Shutting down threads"
+  kill $sync_pid $web_pid $mc_pid
+
+  wait $term_sync_pid
 }
-trap _term SIGTERM
+trap '_term' SIGTERM
 
-bin/get_assets.sh
-
-bin/minecraft.sh &
-
-bin/start_sync.sh
+wait $sync_pid $web_pid $mc_pid
