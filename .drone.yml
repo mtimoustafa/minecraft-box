@@ -8,8 +8,6 @@ pipeline:
       from_secret: docker_password
     tags: ${DRONE_COMMIT_BRANCH}
 
-branches: !(master)
-
 ---
 pipeline:
   build_latest:
