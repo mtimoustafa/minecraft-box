@@ -32,7 +32,7 @@ for f in banned-players banned-ips ops; do
 done
 
 echo "[INIT] Starting Minecraft Server"
-java -Xmx$java_ram -Xms$java_ram -jar minecraft.jar nogui &
+java -Xmx$java_ram_max -Xms$java_ram_min -jar minecraft.jar nogui &
 mc_pid=$!
 
 _term() {
