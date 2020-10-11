@@ -12,28 +12,14 @@ pipeline:
       event: push
 
   deploy:
-    image: omerxx/drone-ecs-plugin
-    secrets:
-      - aws_access_key_id
-      - aws_secret_access_key
-    cluster: minecraft-box-cluster
-    region: us-east-2
-    service: minecraft-box-service
-    family: minecraft-box-task
-    image_name: mtimoustafa/minecraft-box
-    image_tag: master
-    environment_variables:
-      - BRANCH=${DRONE_BRANCH}
-      - SHA1=${DRONE_COMMIT_SHA}
-      - BUILD_NUMBER=${DRONE_BUILD_NUMBER}
-      - AWS_ACCESS_KEY_ID=
-      - AWS_SECRET_ACCESS_KEY=
-    port_mappings: 25566 8080 8123
-    memory: 4096
-    log_driver: awslogs
-    log_options:
-      - awslogs-group=minecraft-box-service
-      - awslogs-region=us-east-2
+    image: amazon/aws-cli
+    environment:
+      AWS_ACCESS_KEY_ID:
+        from_secret: aws_access_key_id
+      AWS_SECRET_ACCESS_KEY:
+        from_secret: aws_secret_access_key
+    commands:
+      - ecs update-service --cluster minecraft-box-cluster --service minecraft-box-service --force-new-deployment
     when:
       branch: master
       event: push
