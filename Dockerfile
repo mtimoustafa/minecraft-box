@@ -18,7 +18,7 @@ EXPOSE 25566 8080 8123
 
 # Make volume for EFS to attach to
 RUN mkdir -p /mnt/efs_data
-RUN chown -R app_user:app_user /mnt/efs_data
+RUN chown -R $APP_USER:$APP_USER /mnt/efs_data
 VOLUME /mnt/efs_data
 
 CMD ["bin/start_server.sh"]
