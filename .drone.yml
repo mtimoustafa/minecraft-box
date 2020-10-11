@@ -9,5 +9,17 @@ pipeline:
     tags:
       - ${DRONE_COMMIT_BRANCH}
     when:
-      event:
-        - push
+      event: push
+
+  deploy:
+    image: joshdvir/drone-ecs-deploy
+      cluster: minecraft-box-cluster
+      service: minecraft-box-service
+      image_name: mtimoustafa/minecraft-box:latest
+      aws_access_key_id:
+        from_secret: aws_access_key_id
+      aws_secret_access_key:
+        from_secret: aws_secret_access_key
+    when:
+      branch: master
+      event: push
