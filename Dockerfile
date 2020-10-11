@@ -12,6 +12,6 @@ RUN apk update && \
     apk add ruby && \
     apk add ruby-full
 
-EXPOSE 25566 8080
+EXPOSE 25566 8080 8123
 
 CMD ["bin/start_server.sh"]
