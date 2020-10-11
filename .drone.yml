@@ -13,7 +13,7 @@ pipeline:
 
   deploy:
     commands:
-      - ecs update-service --cluster minecraft-box-cluster --service minecraft-box-service --force-new-deployment
+      - ./build.sh
     when:
       branch: master
       event: push
