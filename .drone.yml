@@ -12,13 +12,14 @@ pipeline:
       event: push
 
   deploy:
-    image: joshdvir/drone-ecs-deploy
-    cluster: minecraft-box-cluster
+    image: peloton/drone-ecs
     service: minecraft-box-service
-    image_name: mtimoustafa/minecraft-box:master
-    aws_access_key_id:
+    family: minecraft-box-task
+    image_name: mtimoustafa/minecraft-box
+    image_tag: master
+    access_key:
       from_secret: aws_access_key_id
-    aws_secret_access_key:
+    secret_key:
       from_secret: aws_secret_access_key
     when:
       branch: master
