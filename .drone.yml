@@ -12,6 +12,7 @@ pipeline:
       event: push
 
   deploy:
+    image: amazon/aws-cli
     commands:
       - ./build.sh
     when:
