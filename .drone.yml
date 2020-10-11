@@ -13,14 +13,15 @@ pipeline:
 
   deploy:
     image: peloton/drone-ecs
-    service: minecraft-box-service
-    family: minecraft-box-task
-    image_name: mtimoustafa/minecraft-box
-    image_tag: master
     access_key:
       from_secret: aws_access_key_id
     secret_key:
       from_secret: aws_secret_access_key
+    service: minecraft-box-service
+    region: us-east-2
+    family: minecraft-box-task
+    image_name: mtimoustafa/minecraft-box
+    image_tag: master
     when:
       branch: master
       event: push
