@@ -1,26 +1,30 @@
-pipeline:
-  build:
-    image: plugins/docker
-    repo: mtimoustafa/minecraft-box
-    username:
-      from_secret: docker_username
-    password:
-      from_secret: docker_password
-    tags:
-      - ${DRONE_COMMIT_BRANCH}
-    when:
-      event: push
+kind: pipeline
+type: docker
+name: default
 
-  deploy:
-    image: amazon/aws-cli
-    commands:
-      - ./build.sh
-    environment:
-      AWS_ACCESS_KEY_ID:
-        from_secret: aws_access_key_id
-      AWS_SECRET_ACCESS_KEY:
-        from_secret: aws_secret_access_key
-    when:
-      branch: master
-      event: push
+  environment:
+    AWS_ACCESS_KEY_ID:
+      from_secret: aws_access_key_id
+    AWS_SECRET_ACCESS_KEY:
+      from_secret: aws_secret_access_key
 
+  steps:
+    - name: build
+      image: plugins/docker
+      repo: mtimoustafa/minecraft-box
+      username:
+        from_secret: docker_username
+      password:
+        from_secret: docker_password
+      tags:
+        - ${DRONE_COMMIT_BRANCH}
+      when:
+        event: push
+
+    - name: deploy
+      image: amazon/aws-cli
+      commands:
+        - ./build.sh
+      when:
+        branch: master
+        event: push
