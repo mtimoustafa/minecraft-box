@@ -1,5 +1,9 @@
-pipeline:
-  build:
+kind: pipeline
+type: docker
+name: minecraft-box
+
+steps:
+  - name: build
     image: plugins/docker
     repo: mtimoustafa/minecraft-box
     username:
@@ -11,7 +15,7 @@ pipeline:
     when:
       event: push
 
-  deploy:
+  - name: deploy
     image: amazon/aws-cli
     commands:
       - ./build.sh
