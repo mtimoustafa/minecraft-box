@@ -15,7 +15,7 @@ pipeline:
     image: joshdvir/drone-ecs-deploy
     cluster: minecraft-box-cluster
     service: minecraft-box-service
-    image_name: mtimoustafa/minecraft-box:latest
+    image_name: mtimoustafa/minecraft-box:master
     aws_access_key_id:
       from_secret: aws_access_key_id
     aws_secret_access_key:

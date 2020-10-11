@@ -2,7 +2,8 @@
 set -eu
 
 aws_sync_interval=${AWS_SYNC_INTERVAL:-1800} # 30 minutes
-java_ram="1024M"
+java_ram_min="1024M"
+java_ram_max="2048M"
 
 echo "[INIT] Pulling directories from S3"
 aws s3 sync "s3://$AWS_BUCKET" .
