@@ -4,7 +4,7 @@ FROM python:3-alpine
 WORKDIR /minecraft-box
 COPY . .
 
-EXPOSE 25566 8080 8123 2049
+EXPOSE 25566 8080 8123
 
 RUN pip install --no-cache-dir -r requirements.txt && \
     apk update && \
@@ -15,4 +15,6 @@ RUN pip install --no-cache-dir -r requirements.txt && \
     apk add ruby && \
     apk add ruby-full
 
+CMD ["ls"]
+CMD ["pwd"]
 CMD ["bin/start_server.sh"]
