@@ -17,8 +17,8 @@ RUN apk update && \
 EXPOSE 25566 8080 8123
 
 # Make volume for EFS to attach to
-RUN mkdir -p /mnt/efs_data
-RUN chown -R $(whoami):$(whoami) /mnt/efs_data
-VOLUME /mnt/efs_data
+# RUN mkdir -p /mnt/efs_data
+# RUN chown -R $(whoami):$(whoami) /mnt/efs_data
+# VOLUME /mnt/efs_data
 
 CMD ["bin/start_server.sh"]
