@@ -1,24 +1,19 @@
 # Install Python
 FROM python:3-alpine
 
-WORKDIR /usr/src/app
-
-COPY requirements.txt ./
-RUN pip install --no-cache-dir -r requirements.txt
+WORKDIR /minecraft-box  
 COPY . .
 
-RUN apk update && \
+EXPOSE 25566 8080 8123
+
+RUN pip install --no-cache-dir -r requirements.txt && \
+    apk update && \
     apk add openjdk8 && \
     apk add bash && \
     apk add curl && \
     apk add ruby && \
     apk add ruby-full
 
-EXPOSE 25566 8080 8123
-
-# Make volume for EFS to attach to
-# RUN mkdir -p /mnt/efs_data
-# RUN chown -R $(whoami):$(whoami) /mnt/efs_data
-# VOLUME /mnt/efs_data
+VOLUME /minecraft-box  
 
 CMD ["bin/start_server.sh"]
