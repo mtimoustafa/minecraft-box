@@ -6,7 +6,6 @@ COPY . .
 
 EXPOSE 25566 8080 8123
 
-RUN chown -R ec2-user:ec2-user /minecraft-box
 RUN pip install --no-cache-dir -r requirements.txt && \
     apk update && \
     apk add nfs-utils && \
