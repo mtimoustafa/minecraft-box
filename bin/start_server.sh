@@ -5,18 +5,18 @@ aws_sync_interval=${AWS_SYNC_INTERVAL:-1800} # 30 minutes
 java_ram_min="1024M"
 java_ram_max="2048M"
 
-# echo "[INIT] Pulling directories from S3"
-# aws s3 sync "s3://$AWS_BUCKET" .
-# echo "[INIT] Completed S3 directory pull"
+echo "[INIT] Pulling directories from S3"
+aws s3 sync "s3://$AWS_BUCKET" . --only-show-errors
+echo "[INIT] Completed S3 directory pull"
+
+echo "[INIT] Starting sync schedule every $aws_sync_interval seconds"
+eval "while true; do sleep $aws_sync_interval; bin/sync.sh; done &"
+sync_pid=$!
 
 echo -n "[INIT] Installing Minecraft..."
 minecraft_url="https://papermc.io/api/v1/paper/1.16.3/216/download"
 curl -o minecraft.jar -s -L $minecraft_url
 echo "done"
-
-# echo "[INIT] Starting sync schedule every $aws_sync_interval seconds"
-# eval "while true; do sleep $aws_sync_interval; bin/sync.sh; done &" 
-# sync_pid=$!
 
 echo "[INIT] Starting WEBrick"
 ruby \
@@ -36,15 +36,15 @@ java -Xmx$java_ram_max -Xms$java_ram_min -jar minecraft.jar nogui &
 mc_pid=$!
 
 _term() {
-  # echo "[TERM] Syncing files before shutting down"
-  # bin/sync.sh &
-  # term_sync_pid=$!
+  echo "[TERM] Syncing files before shutting down"
+  bin/sync.sh &
+  term_sync_pid=$!
 
-  # echo "[TERM] Shutting down threads"
-  kill $web_pid $mc_pid
+  echo "[TERM] Shutting down threads"
+  kill $sync_pid $web_pid $mc_pid
 
-  wait $web_pid $mc_pid
+  wait $term_sync_pid
 }
 trap '_term' SIGTERM
 
-wait $web_pid $mc_pid
+wait $sync_pid $web_pid $mc_pid

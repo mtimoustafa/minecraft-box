@@ -1,2 +1,2 @@
 #!/bin/sh
-docker stop --time=30 minecraft-box
+docker stop --time=120 minecraft-box
