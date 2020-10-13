@@ -4,8 +4,6 @@ FROM python:3-alpine
 WORKDIR /minecraft-box
 COPY . .
 
-EXPOSE 25566 8080 8123
-
 RUN pip install --no-cache-dir -r requirements.txt && \
     apk update && \
     apk add openjdk8 && \
