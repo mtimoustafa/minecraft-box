@@ -28,9 +28,8 @@ fi
 cp -R minecraft-properties/. minecraft/.
 cd minecraft
 
-echo -n "[INIT] Installing Minecraft..."
+echo "[INIT] Installing Minecraft"
 curl -o minecraft.jar -s -L $minecraft_image_url
-echo "done"
 
 echo "[INIT] Starting Minecraft Server"
 java -Xmx$java_ram_max -Xms$java_ram_min -jar minecraft.jar nogui &
