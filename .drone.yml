@@ -15,16 +15,3 @@ steps:
         - ${DRONE_COMMIT_BRANCH}
     when:
       event: push
-
-  - name: deploy
-    image: amazon/aws-cli
-    environment:
-      AWS_ACCESS_KEY_ID:
-        from_secret: aws_access_key_id
-      AWS_SECRET_ACCESS_KEY:
-        from_secret: aws_secret_access_key
-    commands:
-      - ./build.sh
-    when:
-      branch: master
-      event: push

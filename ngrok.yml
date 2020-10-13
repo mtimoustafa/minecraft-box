@@ -1,8 +1,0 @@
-tunnels:
-  minecraft:
-    proto: tcp
-    addr: 25566
-  dynmap:
-    proto: http
-    addr: 8123
-    bind_tls: true
