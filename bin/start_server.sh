@@ -14,10 +14,6 @@ java_ram_max="2048M"
 # eval "while true; do sleep $aws_sync_interval; bin/sync.sh; done &"
 # sync_pid=$!
 
-echo -n "[INIT] Installing Minecraft..."
-curl -o minecraft.jar -s -L $minecraft_image_url
-echo "done"
-
 echo "[INIT] Starting WEBrick"
 ruby \
   -r webrick \
@@ -25,11 +21,16 @@ ruby \
   &
 web_pid=$!
 
-# Create or complete Minecraft server configuration
-test ! -f eula.txt && echo "eula=true" > eula.txt
-for f in banned-players banned-ips ops; do
-  test ! -f $f.json && echo -n "[]" > $f.json
-done
+if [ ! -d "minecraft" ]; then
+  echo "[INIT] Warning: minecraft directory doesn't exist; creating"
+  mkdir minecraft
+fi
+cp -R minecraft-properties/. minecraft/.
+cd minecraft
+
+echo -n "[INIT] Installing Minecraft..."
+curl -o minecraft.jar -s -L $minecraft_image_url
+echo "done"
 
 echo "[INIT] Starting Minecraft Server"
 java -Xmx$java_ram_max -Xms$java_ram_min -jar minecraft.jar nogui &
