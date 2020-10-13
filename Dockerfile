@@ -1,5 +1,5 @@
 # Install Python
-FROM python:3-alpine
+FROM alpine
 
 WORKDIR /minecraft-box
 COPY . .

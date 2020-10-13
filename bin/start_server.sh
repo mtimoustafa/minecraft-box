@@ -8,7 +8,7 @@ java_ram_max="2048M"
 echo "[INIT] Starting WEBrick"
 ruby \
   -r webrick \
-  -e 'WEBrick::HTTPServer.new(:BindAddress => "0.0.0.0", :Port => 443, :MimeTypes => {"rhtml" => "text/html"}, :DocumentRoot => Dir.pwd).start' \
+  -e 'WEBrick::HTTPServer.new(:BindAddress => "0.0.0.0", :Port => 8080, :MimeTypes => {"rhtml" => "text/html"}, :DocumentRoot => Dir.pwd).start' \
   &
 web_pid=$!
 
