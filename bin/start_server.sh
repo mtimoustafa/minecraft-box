@@ -17,7 +17,7 @@ if [ ! -d "minecraft" ]; then
   mkdir minecraft
 fi
 mkdir -p minecraft-properties && rsync -r minecraft-properties/. minecraft/.
-mkdir -p plugins && rsync -r plugins/. minecraft/plugins/.
+mkdir -p plugins && mkdir -p minecraft/plugins && rsync -r plugins/. minecraft/plugins/.
 cd minecraft
 
 echo "[INIT] Installing Minecraft"
