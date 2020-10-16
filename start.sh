@@ -9,3 +9,4 @@ docker run \
   -v $(pwd)/minecraft:/minecraft-box/minecraft \
   --name minecraft-box \
   minecraft-box:latest
+docker logs -f minecraft-box
