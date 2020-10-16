@@ -16,8 +16,8 @@ if [ ! -d "minecraft" ]; then
   echo "[INIT] Warning: minecraft directory doesn't exist; creating"
   mkdir minecraft
 fi
-cp -R minecraft-properties/. minecraft/.
-cp -R plugins/. minecraft/plugins/.
+mkdir -p minecraft-properties && cp -R minecraft-properties/. minecraft/.
+mkdir -p plugins && cp -R plugins/. minecraft/plugins/.
 cd minecraft
 
 echo "[INIT] Installing Minecraft"
