@@ -1,12 +1,14 @@
 #!/bin/sh
 set -u
 
-instance_name="testy-test"
-disk_name="testy-test-disk"
-ip_name="testy-test-ip"
+server_name="minecraft-baguette"
 disk_size="10GB"
-instance_region="us-central1"
-instance_zone="us-central1-a"
+instance_region="us-east4"
+
+instance_name="$server_name"
+disk_name="$server_name-disk"
+ip_name="$server_name-ip"
+instance_zone="$instance_region-a"
 
 echo "Creating static IP address for VM instance"
 gcloud compute addresses create $ip_name \
@@ -16,16 +18,17 @@ echo "Done! Assigned IP address: $external_ip"
 echo "Use this address to connect to your Minecraft server"
 
 gcloud compute instances create-with-container $instance_name \
+  --machine-type e2-medium \
   --image-family cos-stable \
   --image-project cos-cloud \
   --zone $instance_zone \
   --address $ip_name \
-  --container-image docker.io/mtimoustafa/minecraft-box:automate-gcp \
+  --container-image docker.io/mtimoustafa/minecraft-box:minecraft-boulangerie \
   --create-disk name=$disk_name,image-project=cos-cloud,size=$disk_size,type=pd-ssd,auto-delete=no \
   --container-mount-disk name=$disk_name,mount-path=/minecraft-box/minecraft \
   --container-restart-policy on-failure
 
-# After creating a disk for the instance, we have to format and mount it inside the instance itself!
+# After creating a disk for the instance, we have to format and mount it inside the instance itself
 # See: https://cloud.google.com/compute/docs/disks/add-persistent-disk#formatting
 command='
 device_id="$(sudo lsblk | grep '"$disk_name"' | awk '\''{print $1}'\'')" &&
