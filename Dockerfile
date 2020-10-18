@@ -5,7 +5,6 @@ WORKDIR /minecraft-box
 COPY . .
 
 RUN apk update && \
-<<<<<<< HEAD
     apk add screen && \
     apk add rsync && \
     apk add openjdk8 && \
