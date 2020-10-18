@@ -24,12 +24,13 @@ echo "[INIT] Installing Minecraft"
 curl -o minecraft.jar -s -L $minecraft_image_url
 
 echo "[INIT] Starting Minecraft Server"
-java -Xmx$java_ram_max -Xms$java_ram_min -jar minecraft.jar nogui &
+screen -Dm java -Xmx$java_ram_max -Xms$java_ram_min -jar minecraft.jar nogui &
 mc_pid=$!
 
 _term() {
   echo "[TERM] Shutting down threads"
-  kill $web_pid $mc_pid
+  screen -X stuff ^C
+  kill $web_pid
   wait $web_pid $mc_pid
 }
 trap '_term' SIGTERM
