@@ -5,6 +5,7 @@ WORKDIR /minecraft-box
 COPY . .
 
 RUN apk update && \
+    apk add rsync && \
     apk add openjdk8 && \
     apk add bash && \
     apk add curl && \
