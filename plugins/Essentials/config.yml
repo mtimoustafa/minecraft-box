@@ -57,7 +57,7 @@ change-displayname: true
 # This setting is ignored if EssentialsChat.jar is used, and defaults to 'true'.
 # The value of change-displayname (above) has to be true.
 # Do not edit this setting unless you know what you are doing!
-#add-prefix-suffix: false
+add-prefix-suffix: false
 
 # When this option is enabled, player prefixes will be shown in the playerlist.
 # This feature only works for Minecraft version 1.8 and higher.
@@ -837,10 +837,10 @@ protect:
     fireball-explosion: false
     fireball-fire: false
     fireball-playerdamage: false
-    fireball-itemdamage: false
+    fireball-itemdamage: true
     witherskull-explosion: false
     witherskull-playerdamage: false
-    witherskull-itemdamage: false
+    witherskull-itemdamage: true
     wither-spawnexplosion: false
     wither-blockreplace: false
     creeper-explosion: true
@@ -849,10 +849,10 @@ protect:
     creeper-blockdamage: true
     ender-crystal-explosion: false
     enderdragon-blockdamage: true
-    enderman-pickup: false
+    enderman-pickup: true
     villager-death: false
-    bed-explosion: false
-    respawn-anchor-explosion: false
+    bed-explosion: true
+    respawn-anchor-explosion: true
     # Monsters won't follow players.
     # permission essentials.protect.entitytarget.bypass disables this.
     entitytarget: false
