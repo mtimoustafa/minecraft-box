@@ -1,0 +1,25 @@
+AntiXRay:
+  DebugMode: false
+  NewPlayerStartingPoints: 0
+  PointsEarnedPerHourPlayed: 800
+  MaximumPoints: 1600
+  IgnoreMaxPointsForBlockRatio: true
+  ExemptCreativeModePlayers: true
+  NotifyOnMiningLimitReached: true
+  DefaultMaxHeight: 63
+  Worlds:
+    world: ''
+    world_nether:
+      DefaultMaxHeight: 256
+    world_the_end:
+      DefaultMaxHeight: 256
+  ProtectedBlockValues:
+    DIAMOND_ORE:
+      Value: 100
+      MaxHeight: 20
+    EMERALD_ORE:
+      Value: 50
+      MaxHeight: 35
+    STONE:
+      Value: -2
+      MaxHeight: 256
