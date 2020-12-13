@@ -39,5 +39,5 @@ ticks-per:
   water-spawns: 1
   water-ambient-spawns: 1
   ambient-spawns: 1
-  autosave: 1200 # One minute
+  autosave: 720000 # One hour
 aliases: now-in-commands.yml
