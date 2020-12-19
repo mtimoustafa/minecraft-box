@@ -3,7 +3,7 @@ set -eu
 
 minecraft_image_url="https://papermc.io/api/v1/paper/1.16.3/216/download"
 java_ram_min="1024M"
-java_ram_max="2048M"
+java_ram_max="1024M"
 
 echo "[INIT] Starting WEBrick"
 ruby \
